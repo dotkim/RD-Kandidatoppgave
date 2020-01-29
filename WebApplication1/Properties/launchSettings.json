@@ -1,0 +1,14 @@
+{
+    "profiles": {
+        "WebApplication1": {
+            "commandName": "Project",
+            "workingDirectory": ".\\",
+            "environmentVariables": {
+                "ASPNETCORE_URLS": "http://localhost:61019",
+                "APP__CLIENTAPIKEYS__FromEnvir": "Bolle",
+                "APP__SERVICENAME_X": "OverriddenFromEnvironmentVar",
+                "ASPNETCORE_ENVIRONMENT": "Local"
+            }
+        }
+    }
+}
