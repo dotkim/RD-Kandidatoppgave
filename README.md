@@ -10,17 +10,17 @@ Vi benytter Servicestack til services og som ORM.<br>
 [https://github.com/ServiceStack/ServiceStack.OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite)
 
 <br>
-##Oppgave 1
+## Oppgave 1
 
 Opprett en relasjon mellom personer og firma.<br>
 Lag et endpoint for å liste ut person og tilhørende firma basert på person id.
 
-##Oppgave 2
+## Oppgave 2
 
 Opprett en kontaktliste for hver person. Kontaktene trenger ikke være gjensidige.<br>
 Lag et endpoint for å liste ut person og tilhørende kontakter basert på person id.
 
-##Oppgave 3
+## Oppgave 3
 
 Det er ikke nødvendig å implementere kode for denne oppgaven, men tenk gjennom følgende : 
 
