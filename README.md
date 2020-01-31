@@ -9,7 +9,7 @@ Vi benytter Servicestack til services og som ORM.<br>
 [https://docs.servicestack.net/design-rest-services](https://docs.servicestack.net/design-rest-services)<br>
 [https://github.com/ServiceStack/ServiceStack.OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite)
 
-<br>
+
 ## Oppgave 1
 
 Opprett en relasjon mellom personer og firma.<br>
