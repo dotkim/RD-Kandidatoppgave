@@ -8,7 +8,8 @@ namespace WebApplication1
     {
         void CreateTablesAndTestData(IDbConnectionFactory dbFactory);
 
-        List<string> ExampleData(IDbConnectionFactory dbFactory);
+        List<Person> ExampleData(IDbConnectionFactory dbFactory);
+        Person LoadPersonById(IDbConnectionFactory dbFactory, int Id);
     }
 
     public class Database : IDatabase
@@ -17,20 +18,39 @@ namespace WebApplication1
         {
             using (var db = dbFactory.Open())
             {
-                db.ExecuteNonQuery("CREATE TABLE people (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL);");
-                db.ExecuteNonQuery("CREATE TABLE enterprises(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL);");
-                db.ExecuteNonQuery("INSERT INTO people (name) VALUES ('Willifred Manford');");
-                db.ExecuteNonQuery("INSERT INTO enterprises (name) VALUES ('ACME Inc');");
-                db.ExecuteNonQuery("INSERT INTO enterprises (name) VALUES ('Generic Enterprises');");
-                db.ExecuteNonQuery("INSERT INTO enterprises (name) VALUES ('BnL');");
+                // Create tables in the correct order, because of the foreign key
+                db.CreateTable<Enterprise>();
+                db.CreateTable<Person>();
+
+                //Insert data as shown in the "ExecuteNonQuery" below.
+                var enterprises = new List<Enterprise>
+                {
+                    new Enterprise { Name = "Generic Enterprises" }
+                };
+                enterprises.ForEach((e) => db.Save(e));
+
+                var people = new List<Person>
+                {
+                    new Person { Name = "Willifed Manford", Enterprise = new Enterprise { Name = "ACME Inc" } },
+                    new Person { Name = "Kim Nerli", Enterprise = new Enterprise { Name = "BnL" } }
+                };
+                people.ForEach((p) => db.Save(p, references: true));
             }
         }
 
-        public List<string> ExampleData(IDbConnectionFactory dbFactory)
+        public List<Person> ExampleData(IDbConnectionFactory dbFactory)
         {
             using (var db = dbFactory.Open())
             {
-                return db.Select<string>("SELECT name FROM people");
+                return db.LoadSelect<Person>();
+            }
+        }
+
+        public Person LoadPersonById(IDbConnectionFactory dbFactory, int Id)
+        {
+            using (var db = dbFactory.Open())
+            {
+                return db.LoadSingleById<Person>(Id);
             }
         }
     }
