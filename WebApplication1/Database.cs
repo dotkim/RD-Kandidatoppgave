@@ -10,6 +10,7 @@ namespace WebApplication1
 
         List<PersonFull> GetPeople(IDbConnectionFactory dbFactory);
         PersonFull LoadPersonById(IDbConnectionFactory dbFactory, int Id);
+        List<ContactFull> LoadContacts(IDbConnectionFactory dbFactory, int Id);
     }
 
     public class Database : IDatabase
@@ -41,6 +42,19 @@ namespace WebApplication1
                     new Person { Name = "Finn Erik", EnterpriseId = 1 }
                 };
                 people.ForEach(p => db.Save(p));
+
+                var contacts = new List<Contact>
+                {
+                    new Contact { PersonId = 1, ContactPersonId = 2 },
+                    new Contact { PersonId = 1, ContactPersonId = 4 },
+                    new Contact { PersonId = 2, ContactPersonId = 5 },
+                    new Contact { PersonId = 3, ContactPersonId = 4 },
+                    new Contact { PersonId = 3, ContactPersonId = 1 },
+                    new Contact { PersonId = 4, ContactPersonId = 3 },
+                    new Contact { PersonId = 5, ContactPersonId = 1 },
+                    new Contact { PersonId = 5, ContactPersonId = 2 }
+                };
+                contacts.ForEach(c => db.Save(c));
             }
         }
 
@@ -60,10 +74,19 @@ namespace WebApplication1
             }
         }
 
+        public List<ContactFull> LoadContacts(IDbConnectionFactory dbFactory, int Id)
         {
             using (var db = dbFactory.Open())
             {
-                return db.LoadSingleById<Person>(Id);
+                var q = db.From<Contact>();
+                q.LeftJoin<Person>((c, p) => c.PersonId == p.Id, db.TableAlias("Person"));
+                q.LeftJoin<Person>((c, p) => c.ContactPersonId == p.Id, db.TableAlias("ContactPerson"));
+                q.Where(x => x.PersonId == Id);
+                q.Select(@"Contact.Id,
+                    Person.Name AS PersonName,
+                    ContactPerson.Name AS ContactPersonName
+                ");
+                return db.Select<ContactFull>(q);
             }
         }
     }
