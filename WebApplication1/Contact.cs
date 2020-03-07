@@ -7,10 +7,10 @@ namespace WebApplication1
         [AutoIncrement]
         public int Id { get; set; }
 
-        [ForeignKey(typeof(Person))]
+        [References(typeof(Person))]
         public int PersonId { get; set; }
 
-        [ForeignKey(typeof(Person))]
+        [References(typeof(Person))]
         public int ContactPersonId { get; set; }
     }
 
