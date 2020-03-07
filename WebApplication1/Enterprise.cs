@@ -9,6 +9,7 @@ namespace WebApplication1
         public int Id { get; set; }
         public int PersonId { get; set; }
 
+        [Unique]
         [StringLength(StringLengthAttribute.MaxText)]
         public string Name { get; set; }
     }
