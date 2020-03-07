@@ -17,13 +17,19 @@ namespace WebApplication1
 
         public List<Person> Get(GetPeople request)
         {
-            var result = _database.ExampleData(_dbFactory);
+            var result = _database.GetPeople(_dbFactory);
             return result;
         }
 
         public Person Get(SearchPeople request)
         {
             var result = _database.LoadPersonById(_dbFactory, request.Id);
+            return result;
+        }
+
+        public List<ContactFull> Get(GetContacts request)
+        {
+            var result = _database.LoadContacts(_dbFactory, request.Id);
             return result;
         }
     }
