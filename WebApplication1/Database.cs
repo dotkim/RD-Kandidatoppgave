@@ -8,8 +8,8 @@ namespace WebApplication1
     {
         void CreateTablesAndTestData(IDbConnectionFactory dbFactory);
 
-        List<Person> ExampleData(IDbConnectionFactory dbFactory);
-        Person LoadPersonById(IDbConnectionFactory dbFactory, int Id);
+        List<PersonFull> GetPeople(IDbConnectionFactory dbFactory);
+        PersonFull LoadPersonById(IDbConnectionFactory dbFactory, int Id);
     }
 
     public class Database : IDatabase
