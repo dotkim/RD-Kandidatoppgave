@@ -15,6 +15,10 @@ namespace WebApplication1
 
     public class Database : IDatabase
     {
+        /// <summary>
+        /// Creates all the tables and adds test data to them.
+        /// </summary>
+        /// <param name="dbFactory"></param>
         public void CreateTablesAndTestData(IDbConnectionFactory dbFactory)
         {
             using (var db = dbFactory.Open())
@@ -24,7 +28,7 @@ namespace WebApplication1
                 db.DropAndCreateTable<Person>();
                 db.DropAndCreateTable<Enterprise>();
 
-                // Create "empty" Person objects so we can link them as contacts.
+                // test data
                 var people = new List<Person>
                 {
                     new Person { Name = "Willifred Manford", Enterprise = new Enterprise { Name = "ACME Inc" } },
@@ -50,6 +54,13 @@ namespace WebApplication1
             }
         }
 
+        /// <summary>
+        /// Gets all the Person objects from the database.
+        /// References to Enterprises is loaded into the dataset.
+        /// </summary>
+        /// <param name="dbFactory"></param>
+        /// <example>var res = GetPeople(IDbConnectionFactory)</example>
+        /// <returns>A list of people.</returns>
         public List<Person> GetPeople(IDbConnectionFactory dbFactory)
         {
             using (var db = dbFactory.Open())
@@ -58,6 +69,12 @@ namespace WebApplication1
             }
         }
 
+        /// <summary>
+        /// Get a single Person object from the database, filtered by the ID field.
+        /// </summary>
+        /// <param name="dbFactory"></param>
+        /// <param name="Id"></param>
+        /// <returns>A Person object.</returns>
         public Person LoadPersonById(IDbConnectionFactory dbFactory, int Id)
         {
             using (var db = dbFactory.Open())
@@ -66,8 +83,22 @@ namespace WebApplication1
             }
         }
 
+        /// <summary>
+        /// Get a list of Contacts. Filtered by PersonId.
+        /// </summary>
+        /// <param name="dbFactory"></param>
+        /// <param name="Id"></param>
+        /// <returns>A list of contacts.</returns>
         public List<ContactFull> LoadContacts(IDbConnectionFactory dbFactory, int Id)
         {
+            /*
+             * This is based on a typed SQL query:
+             * SELECT		p1.[Name] AS PersonName, p2.[Name] AS ContactName
+             * FROM		    Contacts c
+             * LEFT JOIN	People p1 ON c.PersonId = p1.Id
+             * LEFT JOIN	People p2 ON c.ContactPersonId = p2.Id
+             * WHERE		C.PersonId = 1;
+             */
             using (var db = dbFactory.Open())
             {
                 var q = db.From<Contact>();
