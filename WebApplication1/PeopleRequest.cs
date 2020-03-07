@@ -13,4 +13,10 @@ namespace WebApplication1
     {
         public int Id { get; set; }
     }
+
+    [Route("/people/{Id}/contacts", "GET")]
+    public class GetContacts : IReturn<List<ContactFull>>
+    {
+        public int Id { get; set; }
+    }
 }
