@@ -19,34 +19,47 @@ namespace WebApplication1
             using (var db = dbFactory.Open())
             {
                 // Create tables in the correct order, because of the foreign key
-                db.CreateTable<Enterprise>();
-                db.CreateTable<Person>();
+                db.DropAndCreateTable<Enterprise>();
+                db.DropAndCreateTable<Person>();
+                db.DropAndCreateTable<Contact>();
 
-                //Insert data as shown in the "ExecuteNonQuery" below.
                 var enterprises = new List<Enterprise>
                 {
+                    new Enterprise { Name = "ACME Inc" },
+                    new Enterprise { Name = "BnL" },
                     new Enterprise { Name = "Generic Enterprises" }
                 };
-                enterprises.ForEach((e) => db.Save(e));
+                enterprises.ForEach(e => db.Save(e));
 
+                // Create "empty" Person objects so we can link them as contacts.
                 var people = new List<Person>
                 {
-                    new Person { Name = "Willifed Manford", Enterprise = new Enterprise { Name = "ACME Inc" } },
-                    new Person { Name = "Kim Nerli", Enterprise = new Enterprise { Name = "BnL" } }
+                    new Person { Name = "Willifred Manford", EnterpriseId = 1 },
+                    new Person { Name = "Kim Nerli", EnterpriseId = 2 },
+                    new Person { Name = "Bill Gates", EnterpriseId = 3 },
+                    new Person { Name = "Steve Balmer", EnterpriseId = 3 },
+                    new Person { Name = "Finn Erik", EnterpriseId = 1 }
                 };
-                people.ForEach((p) => db.Save(p, references: true));
+                people.ForEach(p => db.Save(p));
             }
         }
 
-        public List<Person> ExampleData(IDbConnectionFactory dbFactory)
+        public List<PersonFull> GetPeople(IDbConnectionFactory dbFactory)
         {
             using (var db = dbFactory.Open())
             {
-                return db.LoadSelect<Person>();
+                return db.LoadSelect<PersonFull>();
             }
         }
 
-        public Person LoadPersonById(IDbConnectionFactory dbFactory, int Id)
+        public PersonFull LoadPersonById(IDbConnectionFactory dbFactory, int Id)
+        {
+            using (var db = dbFactory.Open())
+            {
+                return db.LoadSingleById<PersonFull>(Id);
+            }
+        }
+
         {
             using (var db = dbFactory.Open())
             {
