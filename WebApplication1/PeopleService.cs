@@ -15,18 +15,33 @@ namespace WebApplication1
             _dbFactory = dbFactory;
         }
 
+        /// <summary>
+        /// HTTP GET request for fetching a list of all rows in the people table.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>A list of Person objects.</returns>
         public List<Person> Get(GetPeople request)
         {
             var result = _database.GetPeople(_dbFactory);
             return result;
         }
 
+        /// <summary>
+        /// HTTP GET request for fetching a single person from the people table.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>A Person object.</returns>
         public Person Get(SearchPeople request)
         {
             var result = _database.LoadPersonById(_dbFactory, request.Id);
             return result;
         }
 
+        /// <summary>
+        /// HTTP GET request for listing all the contacts from a single person.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>A list of Contact objects.</returns>
         public List<Contact> Get(GetContacts request)
         {
             var result = _database.LoadContacts(_dbFactory, request.Id);
