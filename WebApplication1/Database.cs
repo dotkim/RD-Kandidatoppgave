@@ -10,7 +10,7 @@ namespace WebApplication1
 
         List<Person> GetPeople(IDbConnectionFactory dbFactory);
         Person LoadPersonById(IDbConnectionFactory dbFactory, int Id);
-        List<ContactFull> LoadContacts(IDbConnectionFactory dbFactory, int Id);
+        List<Contact> LoadContacts(IDbConnectionFactory dbFactory, int Id);
     }
 
     public class Database : IDatabase
@@ -89,27 +89,11 @@ namespace WebApplication1
         /// <param name="dbFactory"></param>
         /// <param name="Id"></param>
         /// <returns>A list of contacts.</returns>
-        public List<ContactFull> LoadContacts(IDbConnectionFactory dbFactory, int Id)
+        public List<Contact> LoadContacts(IDbConnectionFactory dbFactory, int Id)
         {
-            /*
-             * This is based on a typed SQL query:
-             * SELECT		p1.[Name] AS PersonName, p2.[Name] AS ContactName
-             * FROM		    Contacts c
-             * LEFT JOIN	People p1 ON c.PersonId = p1.Id
-             * LEFT JOIN	People p2 ON c.ContactPersonId = p2.Id
-             * WHERE		C.PersonId = 1;
-             */
             using (var db = dbFactory.Open())
             {
-                var q = db.From<Contact>();
-                q.LeftJoin<Person>((c, p) => c.PersonId == p.Id, db.TableAlias("Person"));
-                q.LeftJoin<Person>((c, p) => c.ContactPersonId == p.Id, db.TableAlias("ContactPerson"));
-                q.Where(x => x.PersonId == Id);
-                q.Select(@"Contact.Id,
-                    Person.Name AS PersonName,
-                    ContactPerson.Name AS ContactPersonName
-                ");
-                return db.Select<ContactFull>(q);
+                return db.LoadSelect<Contact>(c => c.PersonId == Id);
             }
         }
     }
