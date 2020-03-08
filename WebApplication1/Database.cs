@@ -23,12 +23,13 @@ namespace WebApplication1
         {
             using (var db = dbFactory.Open())
             {
-                // Create tables in the correct order, because of the foreign key
                 db.DropAndCreateTable<Contact>();
                 db.DropAndCreateTable<Person>();
                 db.DropAndCreateTable<Enterprise>();
 
-                // test data
+                // Test data
+                // Create the people and the enterprises.
+                // When all enterprises are made, connect them by getting the enterprise and set the ID manually.
                 var people = new List<Person>
                 {
                     new Person { Name = "Willifred Manford", Enterprise = new Enterprise { Name = "ACME Inc" } },
@@ -39,18 +40,26 @@ namespace WebApplication1
                 };
                 people.ForEach(p => db.Save(p, references:true));
 
+                // Create the contacts for the contact table, also get the Person object for the contactperson.
+                // This way we can use POCO references to display a Person object when loading the table.
                 var contacts = new List<Contact>
                 {
-                    new Contact { PersonId = 1, ContactPersonId = 2 },
-                    new Contact { PersonId = 1, ContactPersonId = 4 },
-                    new Contact { PersonId = 2, ContactPersonId = 5 },
-                    new Contact { PersonId = 3, ContactPersonId = 4 },
-                    new Contact { PersonId = 3, ContactPersonId = 1 },
-                    new Contact { PersonId = 4, ContactPersonId = 3 },
-                    new Contact { PersonId = 5, ContactPersonId = 1 },
-                    new Contact { PersonId = 5, ContactPersonId = 2 }
+                    new Contact { PersonId = 1, ContactPerson = db.SingleById<Person>(2), ContactPersonId = 2 },
+                    new Contact { PersonId = 1, ContactPerson = db.SingleById<Person>(4), ContactPersonId = 4 },
+                    new Contact { PersonId = 2, ContactPerson = db.SingleById<Person>(5), ContactPersonId = 5 },
+                    new Contact { PersonId = 3, ContactPerson = db.SingleById<Person>(4), ContactPersonId = 4 },
+                    new Contact { PersonId = 3, ContactPerson = db.SingleById<Person>(1), ContactPersonId = 1 },
+                    new Contact { PersonId = 4, ContactPerson = db.SingleById<Person>(3), ContactPersonId = 3 },
+                    new Contact { PersonId = 5, ContactPerson = db.SingleById<Person>(1), ContactPersonId = 1 },
+                    new Contact { PersonId = 5, ContactPerson = db.SingleById<Person>(2), ContactPersonId = 2 }
                 };
-                contacts.ForEach(c => db.Save(c));
+                contacts.ForEach(c => db.Save(c)); // Don't save with references, this will make the unqiue constraint trigger.
+
+                // Go through all the people and set the Contacts field. This ensures that the contacts will be loaded as a reference.
+                people.ForEach(p =>
+                {
+                    p.Contacts = db.LoadSelect<Contact>(x => x.PersonId == p.Id);
+                });
             }
         }
 
