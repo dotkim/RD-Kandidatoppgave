@@ -9,8 +9,8 @@ namespace WebApplication1
         void CreateTablesAndTestData(IDbConnectionFactory dbFactory);
 
         List<Person> GetPeople(IDbConnectionFactory dbFactory);
-        Person LoadPersonById(IDbConnectionFactory dbFactory, int Id);
-        List<Contact> LoadContacts(IDbConnectionFactory dbFactory, int Id);
+        Person LoadPersonById(IDbConnectionFactory dbFactory, int id);
+        List<Contact> LoadContacts(IDbConnectionFactory dbFactory, int id);
     }
 
     public class Database : IDatabase
@@ -76,13 +76,13 @@ namespace WebApplication1
         /// Get a single Person object from the database, filtered by the ID field.
         /// </summary>
         /// <param name="dbFactory"></param>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns>A Person object.</returns>
-        public Person LoadPersonById(IDbConnectionFactory dbFactory, int Id)
+        public Person LoadPersonById(IDbConnectionFactory dbFactory, int id)
         {
             using (var db = dbFactory.Open())
             {
-                return db.LoadSingleById<Person>(Id);
+                return db.LoadSingleById<Person>(id);
             }
         }
 
@@ -90,13 +90,13 @@ namespace WebApplication1
         /// Get a list of Contacts. Filtered by PersonId.
         /// </summary>
         /// <param name="dbFactory"></param>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns>A list of contacts.</returns>
-        public List<Contact> LoadContacts(IDbConnectionFactory dbFactory, int Id)
+        public List<Contact> LoadContacts(IDbConnectionFactory dbFactory, int id)
         {
             using (var db = dbFactory.Open())
             {
-                return db.LoadSelect<Contact>(c => c.PersonId == Id);
+                return db.LoadSelect<Contact>(c => c.PersonId == id);
             }
         }
     }
