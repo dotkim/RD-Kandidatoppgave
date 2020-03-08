@@ -36,16 +36,5 @@ namespace WebApplication1
             var result = _database.LoadPersonById(_dbFactory, request.Id);
             return result;
         }
-
-        /// <summary>
-        /// HTTP GET request for listing all the contacts from a single person.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns>A list of Contact objects.</returns>
-        public List<Contact> Get(GetContacts request)
-        {
-            var result = _database.LoadContacts(_dbFactory, request.Id);
-            return result;
-        }
     }
 }
