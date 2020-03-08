@@ -15,7 +15,7 @@ namespace WebApplication1
     }
 
     [Route("/people/{Id}/contacts", "GET")]
-    public class GetContacts : IReturn<List<ContactFull>>
+    public class GetContacts : IReturn<List<Contact>>
     {
         public int Id { get; set; }
     }

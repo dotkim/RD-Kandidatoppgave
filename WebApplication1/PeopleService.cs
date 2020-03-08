@@ -27,7 +27,7 @@ namespace WebApplication1
             return result;
         }
 
-        public List<ContactFull> Get(GetContacts request)
+        public List<Contact> Get(GetContacts request)
         {
             var result = _database.LoadContacts(_dbFactory, request.Id);
             return result;
