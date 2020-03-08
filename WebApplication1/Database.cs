@@ -54,12 +54,6 @@ namespace WebApplication1
                     new Contact { PersonId = 5, ContactPerson = db.SingleById<Person>(2), ContactPersonId = 2 }
                 };
                 contacts.ForEach(c => db.Save(c)); // Don't save with references, this will make the unqiue constraint trigger.
-
-                // Go through all the people and set the Contacts field. This ensures that the contacts will be loaded as a reference.
-                people.ForEach(p =>
-                {
-                    p.Contacts = db.LoadSelect<Contact>(x => x.PersonId == p.Id);
-                });
             }
         }
 
