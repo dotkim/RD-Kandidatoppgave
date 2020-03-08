@@ -14,19 +14,7 @@ namespace WebApplication1
         public int PersonId { get; set; }
 
         [References(typeof(Person))]
+        public Person ContactPerson { get; set; }
         public int ContactPersonId { get; set; }
-    }
-
-    [Alias("Contact")]
-    public class ContactFull
-    {
-        [AutoIncrement]
-        public int Id { get; set; }
-
-        [References(typeof(Person))]
-        public string PersonName { get; set; }
-
-        [References(typeof(Person))]
-        public string ContactPersonName { get; set; }
     }
 }

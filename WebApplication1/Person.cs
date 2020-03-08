@@ -1,4 +1,5 @@
 ﻿using ServiceStack.DataAnnotations;
+using System.Collections.Generic;
 
 namespace WebApplication1
 {
@@ -14,6 +15,9 @@ namespace WebApplication1
 
         [StringLength(StringLengthAttribute.MaxText)]
         public string Name { get; set; }
+
+        [Reference]
+        public List<Contact> Contacts { get; set; }
     }
 
 }
