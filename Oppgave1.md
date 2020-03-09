@@ -4,11 +4,11 @@ Laget en løsning i branchen som heter oppg1-POCO, denne ble videre utarbeidet m
 
 ## Aktuelle filer
 
-- Person.cs (Type)
-- Enterprise.cs (Type)
-- PersonService.cs (Service/Endepunkt)
-- PersonRequest.cs (Routes)
-- Database.cs (Spørringer)
+- [Person.cs](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/WebApplication1/People.Models/Types/Person.cs) (Type)
+- [Enterprise.cs](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/WebApplication1/People.Models/Types/Enterprise.cs) (Type)
+- [PeopleService.cs](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/WebApplication1/People.Services/PeopleService.cs) (Service/Endepunkt)
+- [People.cs](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/WebApplication1/People.Models/People.cs) (Routes)
+- [Database.cs](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/WebApplication1/Database.cs) (Spørringer)
 
 ## Tankegang
 

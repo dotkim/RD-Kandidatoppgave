@@ -2,11 +2,29 @@
 
 ## Hvordan ville du løst å legge til data?
 
-For å legge til datta ville jeg laget en ny Route for en POST request.
+For å legge til datta ville jeg laget en ny Route for POST requests. Hvor APIet tar i mot en request body i JSON. Noe som dette:
+
+```csharp
+public PeopleService : Service
+{
+  // Si at body er en JSON string, { Name = "Kim" }.
+  Post(CreatePerson request)
+  {
+    // Sjekk at alle verdier blir riktig, deretter Insert.
+    Person newPerson = JSON.Deserialize<Person>(request.body);
+    return db.CreatePerson(_dbFactory, newPerson);
+  }
+}
+
+public CreatePerson(DbFactory factory, Person newPerson)
+{
+  return db.Insert<Person>(newPerson);
+}
+```
 
 ## Hvordan kunne tabellene vært opprettet/dataene hentet ut på en alternativ måte?
 
-Slik som jeg ser det ut fra hvis man fortsatt skal bruke ORMLite, er det 3 måter å opprette tabeller/hente ut data.
+Slik som jeg ser det ut fra hvis man fortsatt skal bruke ORMLite, har jeg laget 3 metoder man kan hente ut data på, ellers blir det å lage tabeller likt som jeg har gjort i [denne](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/HelpFiles/DatabaseConceptDesign.sql) sql filen.
 
 ### Metode 1
 
@@ -77,10 +95,16 @@ public List<Contact> LoadContacts(IDbConnectionFactory dbFactory, int Id)
 
 ## Videre forbedring av koden?
 
-Hvis jeg ville gjort noe mer nå, så ville jeg nok splittet prosjektet ut fra hva som er anbefalt på [denne](https://docs.servicestack.net/physical-project-structure) siden. Jeg kunne godt også forklart 
+Ville lagt inn testing, noe jeg ikke er veldig god på men har brukt noe Mocha & Chai i Node.JS. Hvis jeg skulle gjort noe mer etter det, så ville jeg nok splittet prosjektet ut fra hva som er anbefalt på [denne](https://docs.servicestack.net/physical-project-structure) siden. Jeg kunne godt også forklart relasjonene litt bedre enten med kommentarer eller et diagram.
+
+Om nødvendig kunne jeg også lagt til autentisering og skrive om servicen(e) til secure services for å bruke sessions.
 
 ## Feilhåndtering
 
+For feilhåndtering ville jeg først laget noe som sender riktige http [statuskoder](https://docs.servicestack.net/error-handling#default-mapping-of-c-exceptions-to-http-errors). Eventuelt "Check" regler for hva man kan spørre om, likt som fra denne [lenken](https://docs.servicestack.net/design-message-based-apis#error-handling-and-validation).
 
 ## Beskrivelse av commit(s)
 
+Når det kommer til commits prøver jeg å forklare så godt jeg kan hva som er gjort, derfor splitter jeg dem ut i flere når jeg først mener jeg har noe som fungerer. Hvis et repository krever spesielle formater på commits og pull requests følger jeg som regel de. Som f.eks. [reglene](https://github.com/accordproject/ergo/blob/master/DEVELOPERS.md#-git-commit-guidelines) til Ergo.
+
+Her er alle commitene mine: https://github.com/dotkim/RD-Kandidatoppgave/commits/oppg2-contacts

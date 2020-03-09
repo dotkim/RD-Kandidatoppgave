@@ -4,11 +4,11 @@ Her laget jeg en løsning hvor kontaktene er relatert til en person i people tab
 
 ## Aktuelle filer
 
-- Person.cs (Type)
-- Contact.cs (Type)
-- PersonService.cs (Service/Endepunkt)
-- PersonRequest.cs (Routes)
-- Database.cs (Spørringer)
+- [Person.cs](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/WebApplication1/People.Models/Types/Person.cs) (Type)
+- [Contact.cs](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/WebApplication1/People.Models/Types/Contact.cs) (Type)
+- [PeopleContact.cs](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/WebApplication1/People.Models/PeopleContact.cs) (Routes)
+- [PeopleContactService.cs](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/WebApplication1/People.Services/PeopleContactService.cs) (Service/Endepunkt)
+- [Database.cs](https://github.com/dotkim/RD-Kandidatoppgave/blob/oppg2-contacts/WebApplication1/Database.cs#L95) (Spørring)
 
 ## Tankegang
 
