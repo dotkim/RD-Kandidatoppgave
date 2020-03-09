@@ -6,23 +6,23 @@ IF OBJECT_ID('People')      IS NOT NULL DROP TABLE People;
 IF OBJECT_ID('Enterprise')  IS NOT NULL DROP TABLE Enterprise;
 
 CREATE TABLE Enterprise(
-	Id      INT	IDENTITY(1,1) CONSTRAINT PK_Enterprise PRIMARY KEY,
-	[Name]  NVARCHAR(100)     CONSTRAINT UQ_Name UNIQUE
+  Id      INT IDENTITY(1,1) CONSTRAINT PK_Enterprise PRIMARY KEY,
+  [Name]  NVARCHAR(100)     CONSTRAINT UQ_Name UNIQUE
 );
 GO
 
 CREATE TABLE People(
-	Id            INT IDENTITY(1,1) CONSTRAINT PK_People PRIMARY KEY,
-	[Name]        NVARCHAR(100),
-	EnterpriseId  INT
+  Id            INT IDENTITY(1,1) CONSTRAINT PK_People PRIMARY KEY,
+  [Name]        NVARCHAR(100),
+  EnterpriseId  INT
     CONSTRAINT FK_Enterprise_Id FOREIGN KEY
     REFERENCES Enterprise
 );
 GO
 
 CREATE TABLE Contacts(
-	PersonId        INT NOT NULL,
-	ContactPersonId INT NOT NULL,
+  PersonId        INT NOT NULL,
+  ContactPersonId INT NOT NULL,
     CONSTRAINT CK_Contacts_PersonId_ContactPersonId
     PRIMARY KEY (PersonId, ContactPersonId)
 );
